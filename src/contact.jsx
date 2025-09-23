@@ -1,6 +1,26 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
+import { useState } from "react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Create mailto link
+    const mailtoLink = `mailto:your-email@example.com?subject=Message from ${formData.name}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    )}`;
+    window.location.href = mailtoLink; // Opens default mail client
+  };
+
   return (
     <Box
       id="contact"
@@ -8,7 +28,8 @@ export default function Contact() {
         width: "100%",
         maxHeight: "80vh",
         py: 8,
-        background: "linear-gradient(90deg,rgba(18, 0, 36, 1) 0%, rgba(79, 11, 87, 1) 65%, rgba(109, 24, 120, 1) 100%, rgba(189, 144, 214, 1) 0%)",
+        background:
+          "linear-gradient(90deg,rgba(18, 0, 36, 1) 0%, rgba(79, 11, 87, 1) 65%, rgba(109, 24, 120, 1) 100%, rgba(189, 144, 214, 1) 0%)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -28,6 +49,7 @@ export default function Contact() {
 
       <Box
         component="form"
+        onSubmit={handleSubmit}
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -37,11 +59,46 @@ export default function Contact() {
           zIndex: 1,
         }}
       >
-        <TextField label="Name" fullWidth variant="outlined" sx={{ background: "#2b0a3d", borderRadius: 1, input: { color: "#fff" } }} />
-        <TextField label="Email" type="email" fullWidth variant="outlined" sx={{ background: "#2b0a3d", borderRadius: 1, input: { color: "#fff" } }} />
-        <TextField label="Message" multiline rows={4} fullWidth variant="outlined" sx={{ background: "#2b0a3d", borderRadius: 1, input: { color: "#fff" } }} />
+        <TextField
+          name="name"
+          label="Name"
+          fullWidth
+          variant="outlined"
+          value={formData.name}
+          onChange={handleChange}
+          sx={{ background: "#2b0a3d", borderRadius: 1, input: { color: "#fff" } }}
+        />
+        <TextField
+          name="email"
+          label="Email"
+          type="email"
+          fullWidth
+          variant="outlined"
+          value={formData.email}
+          onChange={handleChange}
+          sx={{ background: "#2b0a3d", borderRadius: 1, input: { color: "#fff" } }}
+        />
+       <TextField
+  name="message"
+  label="Message"
+  multiline
+  rows={4}
+  fullWidth
+  variant="outlined"
+  value={formData.message}
+  onChange={handleChange}
+  sx={{
+    background: "#2b0a3d",
+    borderRadius: 1,
+    "& .MuiInputBase-input": { color: "#fff" },           // for normal input
+    "& .MuiInputBase-inputMultiline": { color: "#fff" },  // for textarea
+    "& .MuiOutlinedInput-notchedOutline": { borderColor: "#5c0abb" }, // optional border color
+  }}
+/>
+
 
         <Button
+          type="submit"
           sx={{
             background: "linear-gradient(135deg, #5c0abb, #a64dff)",
             color: "#fff",
