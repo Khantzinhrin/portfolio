@@ -1,0 +1,31 @@
+@import "tailwindcss";
+/* Target the scrollable element */
+/* index.css */
+@layer utilities {
+  /* Chrome, Edge, Safari */
+  ::-webkit-scrollbar {
+    width: 0px; /* hidden by default */
+    height: 0px;
+  }
+
+  body:hover::-webkit-scrollbar {
+    width: 8px; /* show when hover */
+  }
+
+  body:hover::-webkit-scrollbar-thumb {
+    @apply bg-purple-700 rounded-full;
+  }
+
+  body:hover::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  /* Firefox */
+  body {
+    scrollbar-width: none; /* hidden */
+  }
+  body:hover {
+    scrollbar-width: thin; /* show on hover */
+    scrollbar-color: #6b21a8 transparent;
+  }
+}
